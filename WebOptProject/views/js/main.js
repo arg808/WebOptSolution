@@ -449,10 +449,16 @@ var resizePizzas = function (size) {
 
     // Iterates through pizza elements on the page and changes their widths
     function changePizzaSizes(size) {
-        for (var i = 0; i < document.querySelectorAll(".randomPizzaContainer").length; i++) {
-            var dx = determineDx(document.querySelectorAll(".randomPizzaContainer")[i], size);
-            var newwidth = (document.querySelectorAll(".randomPizzaContainer")[i].offsetWidth + dx) + 'px';
-            document.querySelectorAll(".randomPizzaContainer")[i].style.width = newwidth;
+
+        var pizzasToResize = document.querySelectorAll(".randomPizzaContainer");
+
+        // Use the first pizza in the collection to calulate dx and width
+        var dx = determineDx(pizzasToResize[0], size);
+        var newwidth = pizzasToResize[0].offsetWidth + dx + 'px';
+
+        // Loop over pizzas and resize them
+        for (var i = 0; i < pizzasToResize.length; i++) {            
+            pizzasToResize[i].style.width = newwidth;
         }
     }
 
@@ -496,14 +502,20 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 // The following code for sliding background pizzas was pulled from Ilya's demo found at:
 // https://www.igvita.com/slides/2012/devtools-tips-and-tricks/jank-demo.html
 
+
+// Moved the items variable into global scope
+var items;
+
 // Moves the sliding background pizzas based on scroll position
 function updatePositions() {
     frame++;
     window.performance.mark("mark_start_frame");
 
-    var items = document.querySelectorAll('.mover');
+    // Moved this calculation outside of the for loop
+    var docTopVal = document.body.scrollTop / 1250;
+
     for (var i = 0; i < items.length; i++) {
-        var phase = Math.sin((document.body.scrollTop / 1250) + (i % 5));
+        var phase = Math.sin((docTopVal) + (i % 5));
         items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
     }
 
@@ -517,6 +529,7 @@ function updatePositions() {
     }
 }
 
+
 // runs updatePositions on scroll
 window.addEventListener('scroll', updatePositions);
 
@@ -524,7 +537,9 @@ window.addEventListener('scroll', updatePositions);
 document.addEventListener('DOMContentLoaded', function () {
     var cols = 8;
     var s = 256;
-    for (var i = 0; i < 200; i++) {
+
+    // Reduced the number of moving pizzas to 56 (7 rows x 8 columns)
+    for (var i = 0; i < 56; i++) {
         var elem = document.createElement('img');
         elem.className = 'mover';
         elem.src = "images/pizza.png";
@@ -534,5 +549,11 @@ document.addEventListener('DOMContentLoaded', function () {
         elem.style.top = (Math.floor(i / cols) * s) + 'px';
         document.querySelector("#movingPizzas1").appendChild(elem);
     }
+
+    // Moved the moving pizza selection here so that is is called once on document load
+    items = document.querySelectorAll('.mover');
+
     updatePositions();
 });
+
+
