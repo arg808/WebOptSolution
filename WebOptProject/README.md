@@ -65,7 +65,7 @@ pizzas', outside of the _**updatePositions**_ function and into the global
 scope so that it can be set a single time on document load and used repeatedly
 in the _**updatePositions**_ function
 
-### Resizing Pizzas
+#### Resizing Pizzas
 * Within the _**changePizzaSizes**_ function I moved the multiple 
 _**querySelectorAll**_ calls into a single call outside of the for loop
 * Moved the _**dx**_ and _**newwidth**_ calculations outside of the for loop 
