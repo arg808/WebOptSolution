@@ -8,7 +8,7 @@ Introduction
 
 Welcome to the **Website Optimization Project** for the Udacity Front-End Web
 Development NanoDegree!  In this file I outline the optimizations that I made
-to improve the performance of the 2 websites specified in the project 
+to improve the performance of the two websites specified in the project 
 declaration:
 
 * Cam's Portfolio (_index.html_)
